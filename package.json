@@ -1,0 +1,122 @@
+{
+  "name": "rewrite-extension",
+  "displayName": "rewrite-extension",
+  "description": "AI rewriter",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.rewriteText",
+        "title": "Rewrite"
+      },
+      {
+        "command": "extension.continueText",
+        "title": "Continue"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "extension.rewriteText",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.continueText",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "extension.rewriteText",
+        "key": "ctrl+shift+r",
+        "when": "editorTextFocus && editorHasSelection"
+      },
+      {
+        "command": "extension.continueText",
+        "key": "ctrl+shift+c",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Rewrite Extension Configuration",
+      "properties": {
+        "rewriteExtension.openAIApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key"
+        },
+        "rewriteExtension.apiEndpoint": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "description": "API Endpoint URL (e.g., Ollama server URL)"
+        },
+        "rewriteExtension.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "Model to use for rewriting (e.g., gpt-3.5-turbo, gpt-4)"
+        },
+        "rewriteExtension.systemPrompt": {
+          "type": "string",
+          "default": "",
+          "description": "System prompt to set the assistant's behavior",
+          "editPresentation": "multilineText"
+        },
+        "rewriteExtension.userPrompt": {
+          "type": "string",
+          "default": "",
+          "description": "User prompt to define the style before the rewrite prompt",
+          "editPresentation": "multilineText"
+        },
+        "rewriteExtension.assistantPrompt": {
+          "type": "string",
+          "default": "",
+          "description": "Assistant prompt used in rewrite mode as the last assistant message",
+          "editPresentation": "multilineText"
+        },
+        "rewriteExtension.contextLength": {
+          "type": "number",
+          "default": 500,
+          "description": "Number of characters to include as context before the selected text."
+        },
+        "rewriteExtension.includeSelectedTextInContext": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include the selected text itself in the context."
+        },
+        "rewriteExtension.contextAfterLength": {
+          "type": "number",
+          "default": 200,
+          "description": "Number of characters to include as context after the selected text."
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.8",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.93.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.11.1"
+  }
+}
